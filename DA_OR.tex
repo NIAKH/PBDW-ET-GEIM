@@ -1,0 +1,157 @@
+\documentclass[a4paper,10pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[francais]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\numberwithin{equation}{section}
+\usetheme{Warsaw}
+\usefonttheme{serif}
+\newtheorem{Pro1}{Proposition}[section]
+
+\title[\sc Assimilation de données ]{\sc Assimilation de données et Réduction d'ordre:\\ PBDW et GEIM}
+\author[\sc I.NIAKH]{\sc NIAKH IDRISSA}
+\institute[\sc UNISTRA]{\sc Sous la direction de Christophe Prud'homme }
+\date[08-06-18]{08 Juin 2018}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\begin{document}
+	
+\begin{frame}
+\begin{figure}
+    \includegraphics[width=4cm]{/home/niakh/Bureau/Master_CSMI/CSMI/Master_CSMI/S2/Stage/unistra.jpg}
+\end{figure}
+\titlepage
+\end{frame}
+
+\begin{frame}
+{\contentsname}
+\tableofcontents
+\end{frame}
+\section{\sc Introduction}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+
+\begin{frame}
+\frametitle{\sc Assimilation de données (AD)}
+\begin{block}{\sc Définition}
+	Couplage modèle mathématique et observations expérimentales.
+	\pause
+\end{block}
+\begin{block}{\sc Méthodes d'assimilation de données}
+	\pause
+	\begin{itemize}[<+->]
+		\item Méthodes séquentielles
+		\item Méthodes inverses
+		\item Méthodes variationnelles
+	\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\sc Réduction d'ordre(RO)}
+\begin{block}{\sc Définition}
+	Méthode de réduction du coût de calcul d'une simulation.
+	\pause
+\end{block}
+\begin{block}{\sc Méthode de réduction d'ordre}
+	\pause
+	\begin{itemize}[<+->]
+		\item Méthodes de substitution
+		\item Méthodes bases réduites 
+		\item Méthodes de décomposition
+		\item Méthodes d'interpolation empirique
+	\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{\sc Couplage AD-RO}
+\begin{block}{\sc Méthodes}
+	\pause
+	\begin{itemize}[<+->]
+		\item Parametrized Background Data Weak(PBDW)
+		\item Generalized Empirical Interpolation Method(GEIM)
+	\end{itemize}
+\end{block}
+\end{frame}
+\section{\sc Contexte et Problématique}
+
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\begin{frame}
+\begin{block}{\sc Contexte}
+	\pause
+	\begin{itemize}[<+->]
+		\item Modèle imprécis
+		\item Simulation coûteuse
+	\end{itemize}
+\pause
+\end{block}
+
+\begin{block}{\sc Problématique}
+	\pause
+	\begin{itemize}[<+->]
+		\item Comment peut-on corriger le modèle en utilisant les observations expérimentales?
+		\item Comment peut-on réduire le temps de simulation tout en restant proche de la vraie solution?
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\section{\sc PBDW}
+
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\section{\sc GEIM}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+\begin{frame}
+
+\end{frame}
+
+\section{\sc Complémentarité PBDW et GEIM}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+\section{\sc Autres types de méthodes}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+
+\end{document}
