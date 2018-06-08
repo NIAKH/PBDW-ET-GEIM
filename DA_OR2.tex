@@ -1,0 +1,570 @@
+\documentclass[a4paper,10pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[francais]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\numberwithin{equation}{section}
+\usetheme{Warsaw}
+\usefonttheme{serif}
+\newtheorem{Pro1}{Proposition}[section]
+
+\title[\sc Assimilation de données ]{\sc Assimilation de données et Réduction d'ordre:\\ PBDW et GEIM}
+\author[\sc I.NIAKH]{\sc NIAKH IDRISSA}
+\institute[\sc UNISTRA]{\sc Sous la direction de Christophe Prud'homme }
+\date[08-06-18]{08 Juin 2018}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\begin{document}
+	
+\begin{frame}
+\begin{figure}
+    \includegraphics[width=4cm]{/home/niakh/Bureau/Master_CSMI/CSMI/Master_CSMI/S2/Stage/unistra.jpg}
+\end{figure}
+\titlepage
+\end{frame}
+
+\begin{frame}
+{\contentsname}
+\tableofcontents
+\end{frame}
+\section{\sc Introduction}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+
+\begin{frame}
+\frametitle{\sc Assimilation de données (AD)}
+\begin{block}{\sc Définition}
+	Couplage modèle mathématique et observations expérimentales.
+	\pause
+\end{block}
+\begin{block}{\sc Méthodes d'assimilation de données}
+	\pause
+	\begin{itemize}[<+->]
+		\item Méthodes séquentielles
+		\item Méthodes inverses
+		\item Méthodes variationnelles
+	\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\sc Réduction d'ordre(RO)}
+\begin{block}{\sc Définition}
+	Méthode de réduction du coût de calcul d'une simulation.
+	\pause
+\end{block}
+\begin{block}{\sc Méthode de réduction d'ordre}
+	\pause
+	\begin{itemize}[<+->]
+		\item Méthodes de substitution
+		\item Méthodes bases réduites 
+		\item Méthodes de décomposition
+		\item Méthodes d'interpolation empirique
+	\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{\sc Couplage AD-RO}
+\begin{block}{\sc Méthodes}
+	\pause
+	\begin{itemize}[<+->]
+		\item Parametrized Background Data Weak(PBDW)
+		\item Generalized Empirical Interpolation Method(GEIM)
+	\end{itemize}
+\end{block}
+\end{frame}
+\section{\sc Contexte et Problématique}
+
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\begin{frame}
+
+\begin{block}{\sc Formulation générale du problème}
+	\begin{equation}
+	\mathcal{P}: \Omega \times \mathcal{D} \rightarrow \mathbb{K}
+	\end{equation}	
+	\begin{itemize}
+		\item $ \mathcal{P}:$ Problème 
+		\item $ \Omega \subseteq \mathbb{R}^{d}:$ Domaine physique 
+		\item $ \mathcal{D} \subseteq \mathbb{R}^{N_{p}}$: Domaine paramétrique
+		\item $ \mathcal{X}$: Espace de Banach approprié
+		\item $ u \in \mathcal{X}$: solution du problème $\mathcal{P}$ 
+		\item $\mathcal{M}=\{u(p)\  |\  p\in \mathcal{D}\}$: Espace des solutions de $\mathcal{P}$.
+		\item $\Sigma$: Ensemble finis de formes linéaires représentant les capteurs.
+	\end{itemize}
+\end{block}
+
+\end{frame}
+\begin{frame}
+\begin{block}{\sc Contexte}
+	\pause
+	\begin{itemize}[<+->]
+		\item Modèle imprécis
+		\item Simulation coûteuse
+	\end{itemize}
+\pause
+\end{block}
+
+\begin{block}{\sc Problématique}
+	\pause
+	\begin{itemize}[<+->]
+		\item Comment peut-on corriger le modèle en utilisant les observations expérimentales?
+		\item Comment peut-on réduire le temps de simulation tout en restant proche de la vraie solution?
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\section{\sc PBDW}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+
+
+
+\begin{frame}
+\frametitle{Stationary problem of the generic form}
+
+\begin{equation}
+\mathcal{P} : \Omega \times \mathcal{D} \rightarrow \mathbb{R}
+\end{equation}
+
+where $\mathcal{P}$ is the problem, $\Omega \in \mathbb{R}^d$ is the physical domain of dim $d = 2,3$ , $\mathcal{D} \in \mathbb{R}^{Np}$ is the parameter domain.
+
+We will consider the solution $u \in \mathcal{X}$, a Hilbert space s.t $H^1_0(\Omega) \in \mathcal{X} \in H^1(\Omega)$ .
+
+
+We assume we have some knowledge of the system encoded in the parameterized PDE model $\mathcal{P}^{bk}$ (i.e the best adapted model available for the problem $\mathcal{P}$), resulting in the best knowlege state $u^{bk}(\textbf{p}) \in \mathcal{X}$ .
+\end{frame}
+
+
+\begin{frame}
+We also assume we have a second source of information in the form of field observations.
+
+We have $M$ experimental observations, we assume our data $y^{obs}_m, 1 \leq m \leq M$, we desire output quantity
+
+\begin{equation}
+y_m^{obs}(\textbf{p}) = l_m(u^{true}(\textbf{p}))
+\end{equation}
+
+where $u^{true}(\textbf{p})$ represents the true physical state of the system and $l_m$ are linear functionals representing the sensors
+
+\end{frame}
+
+
+\begin{frame}
+$\Rightarrow$ The challenge is fomulate a scheme to interpret and employ data from mersurements in some optimal way to contribute to the knowledge of the state in the numerical model
+
+$\Rightarrow$ In order to combine the best knowledge of the system modeled by $\mathcal{P}^{bk}$ and the experimental observations of the physical state, we will consider a PBDW solution of two parts: background and update.
+
+$\Rightarrow$ The goal is to fomulate the PBDW method in which we will approximate the true physical state $u^{true}(\textbf{p})$ by 
+
+\begin{equation}
+u^{bk}(\textbf{p}) + \eta
+\end{equation}
+where $\eta \in \mathcal{X}$ is an update correction term associated to the experimental observations. 
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Reduced basis background}
+
+
+The idea of reduced basis methods is to compute an inexpensive and accurate approximation, $u^{bk}_N(\textbf{p})$ of $\mathcal{P}^{bk}$ for any $\textbf{p} \in \mathcal{D}^{bk}$ by seeking a linear combination of particular solutions
+
+\begin{equation}
+u^{bk}_N(\textbf{p}) = \sum^{N}_{i=1}\beta_i(\textbf{p}) u^{bk}_N(\textbf{p}_i)
+\end{equation}
+
+We perform a Gram-Schmidt orthnormalization, and introduce the Background space $\mathcal{Z}_N = span\{\zeta_i\}^{N}_{i=1} \subset \mathcal{X}$ 
+
+\end{frame}
+
+\begin{frame}
+\frame{Data-informed update}
+
+
+We will consider the experimental observations to contribute in the update piece.
+
+Use the the representation
+
+\begin{equation}
+\varphi_m = exp\left( \frac{-(x - x_m)^2}{2r^2} \right) s.t \int_{\omega} \varphi_m(x) d \Omega =1
+\end{equation}
+
+where $x_m \in \mathbb{R}^d$ is the center of the $m^{th}$ sensor of radius $r$.
+
+To evaluate the information these sensors can gather from a physical state $v \in \mathcal{X}$, we define the function
+
+\begin{equation}
+l_m(v) = \int_{\Omega}  \varphi_m(x) v d \Omega \quad 1 \leq m \leq M
+\end{equation}
+
+
+\end{frame}
+
+\begin{frame}
+We need to use (3.3) to construct the second approximation space $\mathcal{U}_M
+\subset\mathcal{X}$ in which we find the update $\eta$.
+
+Let  us define the Riesz operator $\mathcal{R}_{\mathcal{X}}: \mathcal{X}' \rightarrow \mathcal{X}$ s.t
+
+\begin{equation}
+<v,\mathcal{R}_{\mathcal{X}} l_m>_{\mathcal{X}} = l(v)
+\end{equation}
+
+Introduce the update basis functions $q_m = \mathcal{R}_{\mathcal{X}} l_m$ and for any physical state $u^{true}$ of the configuration, we have
+
+\begin{equation}
+<u^{true},\mathcal{R}_{\mathcal{X}} q_m>_{\mathcal{X}} = l_m(u^{true})
+\end{equation}
+
+We define Update Space $\mathcal{U}_{M_{max}} = span \{q_m \}^{M_{max}}_{m=1}$ where $M_{max}$ is the maximum number of sensors available.
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{PBDW problem statement}
+
+
+The PBDW aims at approximating the true physical state utrue(p) for some configuration $\textbf{p}$ by
+
+\begin{equation}
+u_{N,M} = z_M + \eta_M
+\end{equation}
+
+where $z_N$ is in $\mathcal{Z}_N$, corresponds RB approximation pf best knowledge solution $u^{bk}(\textbf{p})$
+
+and the term $\eta_M$ is in $\mathcal{U}_M$, is the correction term associated with $M$ observations
+
+We pose the PBDW approximation as the solution to the following minimization problem. Find $(u_{N,M} \in \mathcal{X}, z_N \in \mathcal{Z}_N,\eta_M \in \mathcal{U}_M)$ s.t
+\\ 
+Find $(U_{N,M}\in \mathcal{X},Z_{N}\in \mathcal{Z}_{N},\eta_{M}\in \mathcal{U}_{M}):$
+$(U_{N,M};Z_{N};\eta_{M})=\underset{U_{N,M}\in \mathcal{X},Z_{N}\in \mathcal{Z}_{N},\eta_{M}\in \mathcal{U}_{M}}{arginf}\{ \| \eta_{M}\|_{\mathcal{X}}^{2}\}$
+$ \ \ <U_{N,M}-Z_{N},v>_{\mathcal{X}}=<\eta_{M},v>_{X}\ \forall\ v\in \mathcal{X}$ \\ $ <U_{N,M},\phi>_{\mathcal{X}}=<u(p),\phi>_{\mathcal{X}} \forall\ \phi \in \mathcal{U}_{M} $
+
+
+\end{frame}
+
+
+
+\begin{frame}
+Find $(\eta_M(\textbf{p}) \in \mathcal{U}_M, z_N(\textbf{p})\in \mathcal{Z}_N)$ s.t
+
+\begin{equation}
+<\eta_M,q>_{\mathcal{X}} + <z_N,q>_{\mathcal{X}} = <u^{true}(\textbf{p},q)>_{\mathcal{X}} \quad q \in \mathcal{U}_M
+\end{equation}
+
+\begin{equation}
+<\eta_M,p>_{\mathcal{X}} = 0 \quad \forall p \in \mathcal{Z}_N
+\end{equation}
+
+Use the definition of update basis functions $q_m \in \mathcal{X}$ we have
+\begin{equation}
+<\eta_M,q_m>_{\mathcal{X}} = y^{obs}_m(\textbf{p})
+\end{equation}
+
+\begin{equation}
+y^{obs}_m(\textbf{p}) = l_m(u^{true}(\textbf{p}))
+\end{equation}
+\end{frame}
+
+\begin{frame}
+The corresponding algebraic formulation is to find $\eta_M \in \mathbb{R}^M, z_N \in \mathbb{R}^N$ s.t\\
+
+\begin{center}
+	$
+	\begin{pmatrix}
+	A&B\\ 
+	B^{T}&0\\  
+	\end{pmatrix} 
+	\begin{pmatrix}
+	\overrightarrow{\eta_{M}}\\ 
+	\overrightarrow{Z_{N}}\\ 
+	\end{pmatrix} =\begin{pmatrix}
+	\overrightarrow{y^{obs}}\\ 
+	0\\ 
+	\end{pmatrix} 
+	$
+\end{center}
+
+
+where $(y^{obs}_m = y^{obs}_m)$ , $\textbf{A}_{m,m} = <q_m,q_m>_{\mathcal{X}}$ and $\textbf{B}_{m,n} = <\zeta_n, \zeta_m>_{\mathcal{X}}$ 
+
+For a more stable numerical implementation, we can consider solving :
+
+\begin{equation}
+\textbf{B}^T \textbf{A}^{-1} z_N = \textbf{B}^T \textbf{A}^{-1} y^{obs}
+\end{equation}
+
+\begin{equation}
+\eta_M = \textbf{A}^{-1} (y^{obs}  - \textbf{B} z_N)
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}
+*Offline stage:
+
+1. Choose $N$, $M$.
+
+2. Choose $\mathcal{P}^{bk}$ and $\mathcal{D}^{bk}$ .
+
+3. Construct $\mathcal{Z}_N$ and $\mathcal{U}_M$.
+
+4. Construct $\textbf{A}$, $\textbf{B}$
+
+*Online
+
+1. Solve (3.17) and (3.18)
+
+2. Calcule output
+
+\begin{equation}
+l_m(u_N,u_M) = \sum^{M}_{m=1} n_M l_m(q_m) + \sum^{N}_{n=1} z_N l_m(\zeta_n)
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}
+In this case, the output quantity over the basis functions of the two approximation spaces can be precalculated, allowing for evaluation of the output of the PBDW approximation in $\mathcal{O}(N + M)$ operations, without fully reconstructing the PBDW approximation from the basis functions ${\zeta_n}^N_{n=1}$ and ${q_m}^M_m=1$, a procedure in $\mathcal{O}(\mathcal{N}_h)$ operations. 
+\end{frame}
+
+\section{\sc GEIM}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+\begin{frame}
+
+\end{frame}
+
+\section{\sc Complémentarité PBDW et GEIM}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+\section{\sc Autres types de méthodes}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\section{\sc GEIM}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+
+\begin{frame}
+\begin{block}{\sc Définition}
+	Méthode non intrusive de réduction d'ordre et d'assimilation de données basée sur l'interpolation empirique. 
+\end{block}
+
+\end{frame}
+\begin{frame}
+\frametitle{\sc Formulation GEIM}
+\begin{block}{\sc Principe}
+	\begin{itemize}
+		\item $\mathcal{M}^{Par}=\{u(p_{1}),u(p_{2}),\cdots ,u(p_{M}) \} \subseteq \mathcal{M}$ ensemble de $M$ solutions particulières.
+		\item $\Sigma^{Par}=\{\sigma_{1},\sigma_{2},\cdots ,\sigma_{M}\} \subseteq \Sigma$ ensemble de formes linéaires associées à $\mathcal{M}^{Par}$.
+		\item $\mathcal{M}^{GEIM}=
+		\{q_{1},q_{2},\cdots,q_{M}\}$ base de fonctions d'interpolation issues de $\mathcal{M}^{Par}$ et $\Sigma^{Par}$. 
+		\item $\mathcal{I}_{M}(u)=\sum_{j=1}^{M}\alpha_{j}(u)q_{j}$ tel que $\sigma_{i}(\mathcal{I}_{M}(u))=\sigma_{i}(u)$ opérateur d'interpolation
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{\sc Choix formes linéaires et fonctions de base }
+\begin{block}{\sc Étape 1}
+	\begin{itemize}
+		\item $u(p_{1})$: Choisie comme la plus grande en $\| \cdot\|_{\mathcal{X}}$ de $\mathcal{M}^{Par}$
+		\item $\sigma_{1}=\underset{\sigma \in \Sigma}{argsup}\ |\sigma(u(p_{1}))|$
+		\item $q_{1}=\frac{u(p_{1})}{\sigma_{1}(u(p_{1}))}$
+	\end{itemize}
+\end{block}
+\begin{block}{\sc Étape 2}
+	\begin{itemize}
+		\item $u(p_{2})=\underset{u\in \mathcal{M}^{Par}}{argsup}\ \| u-\sigma_{1}(u)q_{1}\|_{\mathcal{X}}$
+		\item $\sigma_{2}=\underset{\sigma \in \Sigma}{argsup}\ |\sigma[u(p_{2})-\sigma_{1}(u(p_{2}))q_{1}]|$
+		\item $q_{2}=\frac{u(p_{2})-\sigma_{1}(u(p_{2}))q_{1}}{\sigma_{2}[u(p_{2})-\sigma_{1}(u(p_{2}))q_{1}]}$
+	\end{itemize}
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{\sc Choix formes linéaires et fonctions de base }
+\begin{block}{\sc Étape générale: $M>2$}
+	\begin{itemize}
+		\item $u \in \mathcal{M}^{Par}:$  Résoudre$$\sigma_{i}(u)=\sum_{j=1}^{M-1}\ \alpha_{j}^{M-1}(u)\sigma_{i}(q_{j})\ \forall 1\leq i\leq M-1$$
+		\item On trouve les coefficients d'interpolations $\alpha_{j}^{M-1}(u)$
+		\item Opérateur d'interpolation: $\mathcal{I}_{M-1}(u)=\sum_{j=1}^{M-1}\alpha_{j}^{M-1}(u)q_{j}$
+		\item $u(p_{M})=\underset{u\in \mathcal{M}^{Par}}{argsup\ }\| u-\mathcal{I}_{M-1}(u)\|_{X}$
+		\item $\sigma_{M}=\underset{\sigma \in \Sigma}{argsup\ }|\sigma(u(p_{M})-\mathcal{I}_{M-1}(u(p_{M})) ) |$
+		\item $ q_{M}=\frac{u(p_{M})-\mathcal{I}_{M-1}(u(p_{M}))) }{\sigma(u(p_{M})-\mathcal{I}_{M-1}(u(p_{M}) ))}$
+	\end{itemize}
+	
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{\sc Erreur d'approximation}
+\begin{block}{}
+	\begin{itemize}
+		\item $\mathcal{X}=L^{2}(\Omega)$
+	 \item $\land_{M}=\underset{u \in \mathcal{M}}{\sup} \frac{\| \mathcal{I}_{M}(u)\|_{L^{2}(\Omega)}}{\| u\|_{L^{2}(\Omega)}} $
+  \end{itemize}
+\end{block}
+\begin{block}{Estimation d'erreur}
+	\begin{itemize}
+		\item $\|u-\mathcal{I}_{M}(u) \|_{L^{2}(\Omega)}\leq (1+\land_{M})\underset{w \in \mathcal{M}^{Par}}{\inf} \| u-w\|_{L^{2}(\Omega)}$
+		\item $\land_{M}\leq 2^{M-1}\underset{1\leq i\leq M}{\max} \| q_{i}\|_{L^{2}(\Omega)}$
+	\end{itemize}
+\end{block}   
+\end{frame}
+\begin{frame}
+\frametitle{\sc Implémentation numérique GEIM}
+\begin{block}{\sc Matrice d'interpolation}
+	\begin{itemize}
+		\item $B^{M}=(B_{i,j}^{M})_{ 1\leq i,j \leq M }$ avec  $B_{i,j}^{M}=\sigma_{i}(q_{j})\ 1\leq i,j \leq M$.
+		\item $B^{M}$ est une matrice triangulaire inférieure avec une diagonale unitaire.
+        \item Étape hors-ligne
+	\end{itemize}
+\end{block}
+\end{frame}
+\begin{frame}
+\frametitle{\sc Implémentation numérique GEIM}
+\begin{block}{Problème d'interpolation}
+	\begin{itemize}
+			\item Problème d'interpolation:  avec $U_{i}^{k}=\sigma_{i}(u(p_{k}))$, $\alpha_{i}^{k}:\ i^{iém} $ coefficient d'interpolation.
+			\item Solution:
+			\begin{equation}
+			\left\{
+			\begin{array}{rl}
+			\alpha_{1}^{k}&=\sigma_{1}(u(p_{k})) \\
+			\alpha_{2}^{k}&=\sigma_{2}(u(p_{k}))-\sigma_{2}(q_{1})\alpha_{1}^{k}\\
+			\cdots\\ 
+			\alpha_{M}^{k}&=\sigma_{M}(u(p_{k}))-\sum_{i=1}^{M-1}\sigma_{M}(q_{i})\alpha_{i}^{k}
+			\end{array}\right.
+			\end{equation}
+	\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\sc Implémentation numérique GEIM}
+\begin{block}{\sc Formules itératives}
+	\begin{itemize}
+		\item $ \mathcal{I}_{M}(u(p))=\mathcal{I}_{M-1}(u(p))+\frac{\sigma_{M}(u(p)-\mathcal{I}_{M-1}(u(p)))}{\sigma_{M}(u(p_{M})-\mathcal{I}_{M-1}(u(p_{M})))}\times (u(p_{M})-\mathcal{I}_{M-1}(u(p_{M})))$
+		
+		\item $q_{M}=\frac{u(p_{M})-\mathcal{I}_{M-1}(u(p_{M}))}{\sigma_{M}(u(p_{M})-\mathcal{I}_{M-1}(u(p_{M})))} $
+	\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{\sc Complémentarité PBDW et GEIM}
+\begin{block}{\sc Utilisation GEIM dans PBDW}
+	\begin{itemize}[<+->]
+		\item Choix des capteurs
+		\item Positionnement des capteurs
+	\end{itemize}
+\end{block}
+\end{frame}
+
+
+
+\section{\sc Divers}
+\AtBeginSection[]
+{
+\begin{frame}{Plan}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\begin{frame}
+\begin{block}{\sc Adaptation dans la pratique}
+	\begin{itemize}
+		\item Proper Order Decomposition (POD) method
+		\item Adimentionner le problème
+		\item Cas de plusieurs capteurs (GEIM)
+	\end{itemize}
+\end{block}
+\begin{block}{\sc Question 1}
+	Soit $\mathcal{M}$ un sous espace de Banach de $\mathcal{X}$ et $Y_{n}$ une suite de sous espace vectoriel de dimension $n$ de $\mathcal{X}$. On pose: 
+	$$\mathcal{E}(\mathcal{M};Y_{n})=\underset{x\in \mathcal{M}}{\sup}(\underset{y \in Y-{n}}{\inf}\| x-y\|_{\mathcal{X}})$$
+	La "n-width" de Kolmogorov est :\\
+	$d_{n}(\mathcal{M},\mathcal{X})=\{ \mathcal{E}(\mathcal{M};Y_{n})\ |\ Y_{n}  \mbox{ sous espace de dimension n} \}$
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{\sc Question 2}
+	$
+	\varphi_m = exp\left( \frac{-(x - x_m)^2}{2r^2} \right) \mbox{ et } \int_{\omega} \varphi_m(x) d \Omega =1$
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{REFERENCES}
+\begin{thebibliography}{10}    
+	\setbeamertemplate{bibliography item}[book]
+	\bibitem{Autor1990}
+	Janelle K. Hammond
+	\newblock {\em Méthodes des bases réduites pour
+		la qualité de l’air en milieu urbain}.
+	\newblock 13 Novembre 2017
+	\setbeamertemplate{bibliography item}[article]
+	\bibitem{Jemand2000}
+	\href{https://arxiv.org/abs/1712.09594}{https://arxiv.org/abs/1712.09594} 
+\end{thebibliography}
+\end{frame}
+\setbeamertemplate{background canvas}[vertical shading]
+[top=structure.fg!05,bottom=structure.fg!90]
+\begin{frame}
+$$\mbox{\Huge ON VOUS REMERCIE} $$
+\end{frame}
+\setbeamertemplate{background canvas}[default]
+\setbeamercolor{background canvas}{bg=white}
+
+\end{document}
